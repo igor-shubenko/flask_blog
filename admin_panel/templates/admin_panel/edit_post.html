@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+        {% for cat, message in get_flashed_messages(True) %}
+            <div class="flash {{cat}}">{{ message }}</div>
+        {% endfor %}
+    <div id="add_post">
+        <form action="{{ url_for('admin.edit_post', post_slug=form.slug.data) }}" method="post" class="post_form">
+
+            <div class="post_label">{{ form.title.label }}</div><div class="input">{{ form.title }}</div>
+            <div class="post_label">{{ form.text.label }}</div><div class="input">{{ form.text(rows='20', cols='80') }}</div>
+            <p><button class="cont_button" type="submit"><b>Змінити</b></button>
+        </form>
+        <br>
+    </div>
+    <div id="upload_file">
+        <form action="{{ url_for('admin.uploader', post_slug=form.slug.data) }}" method="post" class="post_form" enctype="multipart/form-data">
+
+            <div class="post_label">{{ uploadform.fileinput.label }}</div><div class="input">{{ uploadform.fileinput }}</div>
+            <p><button class="cont_button" type="submit"><b>Завантажити</b></button>
+        </form>
+        <br>
+    </div>
+{% endblock %}

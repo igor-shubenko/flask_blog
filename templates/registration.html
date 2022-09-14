@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div id="login">
+        <h4>Регистрация учетной записи</h4><br>
+<form method="post" action="/registration" class="login-form">
+    <div>Логин:</div><input type="text" name="username" value="" required/>
+    <div>Email:</div><input type="email" name="user_email" value="" required/>
+    <div>Пароль:</div><input type="password" name="password" value="" required/>
+    <div>Пароль:</div><input type="password" name="password2" value="" required/>
+    <button type="submit">Зарегистрироваться</button>
+</form>
+    {% for cat, message in get_flashed_messages(True) %}
+            <div class="flash {{cat}}">{{ message }}</div>
+    {% endfor %}
+</div>
+{% endblock %}

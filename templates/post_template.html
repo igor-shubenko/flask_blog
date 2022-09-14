@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if session.admin_logged %}
+        <div class="edit_post_link"><a href="{{ url_for('admin.edit_post', post_slug=post.post_slug) }}">Редагувати</a></div>
+    {% endif %}
+    <div class="post">
+        <p><b>{{ post.title }}</b></p>
+        <br>
+        <p>{{ post.post_text|safe }}</p>
+    </div>
+    <div id="comment">
+        {% for cat, message in get_flashed_messages(True) %}
+            <div class="flash {{cat}}">{{ message }}</div>
+        {% endfor %}
+    <form method="post" action="{{ url_for('post', post_slug=post.post_slug) }}" class="comment_form">
+        {{ form.csrf_token }}
+        {% if not session.userLogged %}
+        <div class="comment_label">{{ form.name.label }}: </div><div class="input">{{ form.name }}</div>
+        {% endif %}
+        <div class="comment_label"><p>Текст комментария:</p></div>
+        <div class="input">{{ form.text(rows='5', cols='35') }}</div>
+        <button type="submit">Добавить комментарий</button>
+    </form>
+    </div>
+    <div id="comments">
+        {% if comments %}
+            {% for comment in comments %}
+                <div class="comment_head"><b>{{ comment.name }}</b> {{ comment.days_ago }} days ago</div>
+                <div class="comment_text">{{ comment.text }}</div>
+            {% endfor %}
+        {% endif %}
+
+    </div>
+    <br>
+{% endblock %}

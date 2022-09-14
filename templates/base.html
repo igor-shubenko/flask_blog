@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link type="text/css"  href="{{ url_for('static', filename='CSS/styles.css') }}" rel="stylesheet" />
+    <meta charset="UTF-8">
+    {% if title %}
+    <title>{{ title }}</title>
+    {% else %}
+    <title>No title</title>
+    {% endif %}
+</head>
+<body>
+<div class="page">
+        <ul class="main_menu">
+        {% for m in menu %}
+            <li class="li_left"><a href="{{ url_for(m[1])}}">{{ m[0] }}</a></li>
+        {% endfor %}
+            {% if not session.userLogged %}
+                <li class="li_right"><a href="{{ url_for('login') }}">Вхід</a></li>
+                <li class="li_right"><a href="{{ url_for('registration') }}">Реєстрація</a></li>
+            {% elif session.admin_logged %}
+                <li class="li_right">{{ session.userLogged }} | <a href="{{ url_for('admin.logout') }}">Вийти</a></li>
+            {% else %}
+                <li class="li_right">{{ session.userLogged }} | <a href="{{ url_for('logout') }}">Вийти</a></li>
+            {% endif %}
+        </ul>
+    {% block content %}
+    {% endblock %}
+</div>
+<div class="footer">
+    <p>&#9426 Усі права захищено, скоріш за все... </p>
+</div>
+</body>
+</html>

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    {% if session.admin_logged %}
+        <div class="edit_post_link"><a href="{{ url_for('admin.edit_post', post_slug='index') }}">Редагувати</a></div>
+    {% endif %}
+<div class="mainpage">
+</div>
+    {% if page_data %}
+    <div class="post">
+            {% if page_data.title %}
+                <p><b>{{ page_data.title }}</b></p>
+                <br>
+            {% endif %}
+        <p>{{ page_data.post_text }}</p>
+    </div>
+    {% endif %}
+{% endblock %}
+

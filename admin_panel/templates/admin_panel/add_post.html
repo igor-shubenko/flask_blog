@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+        {% for cat, message in get_flashed_messages(True) %}
+            <div class="flash {{cat}}">{{ message }}</div>
+        {% endfor %}
+    <div id="add_post">
+        <form action="{{ url_for('.add_post') }}" method="post" class="post_form">
+            <div class="post_label">{{ form.title.label }}</div><div class="input">{{ form.title }}</div>
+            <div class="post_label">{{ form.slug.label }}</div><div class="input">{{ form.slug }}</div>
+            <div class="post_label">{{ form.text.label }}</div><div class="input">{{ form.text(rows='20', cols='80') }}</div>
+            <p><button class="cont_button" type="submit"><b>Опублікувати</b></button>
+        </form>
+        <br>
+    </div>
+{% endblock %}

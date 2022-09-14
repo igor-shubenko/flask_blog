@@ -1,0 +1,16 @@
+{% extends 'admin_panel/base_admin.html' %}
+
+{% block content %}
+<div id="login">
+        <h4>Вхід до адмінки</h4><br>
+<form method="post" action="{{ url_for('.login') }}" class="login-form">
+    {{ form.csrf_token }}
+    <div>{{ form.admin_name.label }}</div><div>{{ form.admin_name }}</div>
+    <div>{{ form.password.label }}</div><div>{{ form.password }}</div>
+    <button type="submit">Увійти</button>
+</form>
+    {% for cat, message in get_flashed_messages(True) %}
+            <div class="flash {{cat}}">{{ message }}</div>
+    {% endfor %}
+</div>
+{% endblock %}

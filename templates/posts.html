@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if session.admin_logged %}
+        <div class="add_post_link"><a href="{{ url_for('admin.add_post') }}">Додати статтю</a></div>
+    {% endif %}
+    {% for cat, message in get_flashed_messages(True) %}
+        <div class="flash {{cat}}">{{ message }}</div>
+    {% endfor %}
+{% for post in posts %}
+    <div class="post_preview">
+    <div class="post_date">{{ post.post_date|truncate(13) }}</div>
+    <div class="post_title"><p><a href="{{ url_for('post', post_slug=post.post_slug) }} ">{{ post.title }}</a></p></div>
+    <div class="post_begin"><p>{{ post.post_text|truncate(200)|safe }}</p></div>
+         {% if session.admin_logged %}
+            <div class="edit_post_link"><a href="{{ url_for('admin.edit_post', post_slug=post.post_slug) }}">Редагувати</a></div>
+         {% endif %}
+    </div>
+{% endfor %}
+    <br>
+    <br>
+{% endblock %}
