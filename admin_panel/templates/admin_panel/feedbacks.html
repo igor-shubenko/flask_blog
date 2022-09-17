@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+{% for feed in feedbacks %}
+    <div class="post_preview">
+    <div class="post_date">{{ feed.feed_date }}</div>
+    <div class="post_date">{{ feed.name }}</div>
+    <div class="post_date">{{ feed.email }}</div>
+    <div class="post_begin"><p>{{ feed.message }}</p></div>
+    </div>
+{% endfor %}
+    <br>
+    <br>
+{% endblock %}

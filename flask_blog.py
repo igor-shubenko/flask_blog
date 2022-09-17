@@ -4,18 +4,15 @@ import os
 import sqlite3
 from db_worker import DBWorker
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import LoginManager
 from forms import CommentForm
 from admin_panel.admin import admin
 
 # Конфигурация
 DATABASE = '/tmp/flask-blog_database.db'
-SECRET_KEY = 'nuio)u*riot&ruot^u43%9859$83#57_@!' # ключ сессии, чем сложнее тем лучше
-DEBUG = True
-
 app = Flask("FlaskBlog")
 
 app.config.from_object('flask_blog') #загружаем конфигурацию(в данном случае из самого себя
+app.secret_key = os.environ.get('SECRET_KEY', 'nuio)u*riot&ruot^u43%9859$83#57_@!')
 app.config.update(dict(DATABASE=os.path.join(app.root_path, 'flask_blog_database.db')))
 app.register_blueprint(admin, url_prefix='/admin')
 
@@ -67,26 +64,26 @@ def index():
         page_data = dbase.get_post('index')[0]
     except IndexError:
         page_data = None
-    return render_template('index.html', title='Главная страница', menu=menu, page_data=page_data)
+    return render_template('index.html', title='Головна сторінка', menu=menu, page_data=page_data)
 
 @app.route('/registration', methods=['GET', 'POST'])
 def registration():
     if request.method == 'POST':
         if request.form['password'] != request.form['password2']:
-            flash('Пароли не совпадают', category='error')
+            flash('Паролі не співпадають', category='error')
         elif dbase.check_username(request.form['username']):
-            flash('Пользователь с таким именем уже зарегистрирован', category='error')
+            flash("Користувач з таким ім'ям вже зареєстрований", category='error')
         elif dbase.check_email(request.form['user_email']):
-            flash('Пользователь с таким email уже зарегистрирован', category='error')
+            flash('Користувач з таким email вже зареєстрований', category='error')
         else:
             username = request.form['username']
             user_email = request.form['user_email']
             pass_hash = generate_password_hash(request.form['password'])
             dbase.register_user(username, user_email, pass_hash)
-            flash('Регистрация успешна', category='success')
+            flash('Реєстрація успішна', category='success')
             return redirect(url_for('login'))
 
-    return render_template('registration.html', menu=menu, title="Регистрация")
+    return render_template('registration.html', menu=menu, title="Реєстрація")
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
@@ -94,14 +91,14 @@ def login():
         return redirect(url_for('profile', username=session['userLogged']))
     elif request.method == 'POST':
         if not dbase.check_username(request.form['username']):
-            flash('Пользователь с таким именем не зарегистрирован', category='error')
+            flash("Користувач з таким іменем не зареєстрований", category='error')
         elif not check_password_hash(dbase.get_pswhash(request.form['username']), request.form['password']):
-            flash('Пароль введен неверно', category='error')
+            flash('Невірний пароль', category='error')
         else:
             session['userLogged'] = request.form['username']
             return redirect(url_for('profile', username=session['userLogged']))
 
-    return render_template('login.html', title='Вход в учетную запись', menu=menu)
+    return render_template('login.html', title='Вхід', menu=menu)
 
 @app.route('/logout')
 def logout():
@@ -133,13 +130,13 @@ def contact():
         #     r.write(str(request.__dict__) + '\n')
         # with open('static/logs/messages.txt', 'a+') as m:
         #     m.write(str(request.form) + '\n')
-        flash('Сообщение отправлено')
+        flash('Відправлено')
         # return render_template('thanks_for_feedback.html', title='Сообщение отправлено', menu=menu)
-    return render_template('contact.html', menu=menu, title='Обратная связь')
+    return render_template('contact.html', menu=menu, title="Зворотній зв'язок")
 
 @app.route('/posts')
 def posts():
-    return render_template('posts.html', menu=menu, title='Все статьи', posts=dbase.get_all_posts())
+    return render_template('posts.html', menu=menu, title='Список статей', posts=dbase.get_all_posts())
 
 @app.route('/posts/<post_slug>', methods=['GET', 'POST'])
 def post(post_slug):
@@ -153,10 +150,10 @@ def post(post_slug):
             name = form.name.data
             text = form.text.data
             dbase.add_comment(post['id'], name, text)
-            flash('Комментарий добавлен', category='success')
+            flash('Коментар додано', category='success')
             return redirect(url_for('post', post_slug=post_slug))
         else:
-            flash("Іь'я або комент мають бути довшими", category='error')
+            flash("Ім'я або комент мають бути довшими", category='error')
     return render_template('post_template.html', menu=menu, comments=comments, title=post['title'], post=post, form=form)
 
 @app.errorhandler(404)
@@ -169,4 +166,5 @@ def pagenotfound(error):
 
 
 if __name__ == '__main__':
-    app.run()
+    port = int(os.environ.get("PORT", 5000))  # <-----
+    app.run(debug=True, host='0.0.0.0', port=port)

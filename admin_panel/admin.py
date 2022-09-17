@@ -120,3 +120,9 @@ def uploader(post_slug):
         uploadform.fileinput.data.save(f'static/images/{post_slug}/' + filename)
         flash('Завантажено', category='success')
         return redirect(request.referrer)
+
+@admin.route('/feedbacks')
+def feedbacks():
+    if admin_logged() == False:
+        return redirect(url_for('.login'))
+    return render_template('admin_panel/feedbacks.html', menu=menu, title='Feedbacks', feedbacks=dbase.get_all_feedbacks())

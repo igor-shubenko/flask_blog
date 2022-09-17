@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS comments (
     text VARCHAR,
     date_add DATETIME DEFAULT CURRENT_TIMESTAMP,
     post_id INTEGER,
-    FOREIGN KEY(post_id) REFERENCES post(id)
+    FOREIGN KEY(post_id) REFERENCES posts(id)
 );
 
 CREATE TABLE IF NOT EXISTS admins (

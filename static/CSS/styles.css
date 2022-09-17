@@ -105,10 +105,12 @@ ul.main_menu .li_right {
 }
 
 ul.main_menu li a, .post_title a {
+    text-decoration: none;
     color: maroon;
 }
 
 ul.main_menu li a:hover, .post_title a:hover {
+    text-decoration: none;
     color: orange;
 }
 

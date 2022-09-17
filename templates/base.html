@@ -19,7 +19,7 @@
                 <li class="li_right"><a href="{{ url_for('login') }}">Вхід</a></li>
                 <li class="li_right"><a href="{{ url_for('registration') }}">Реєстрація</a></li>
             {% elif session.admin_logged %}
-                <li class="li_right">{{ session.userLogged }} | <a href="{{ url_for('admin.logout') }}">Вийти</a></li>
+                <li class="li_right"><a href="{{ url_for('admin.feedbacks') }}">Feedbacks</a> | {{ session.userLogged }} | <a href="{{ url_for('admin.logout') }}">Вийти</a></li>
             {% else %}
                 <li class="li_right">{{ session.userLogged }} | <a href="{{ url_for('logout') }}">Вийти</a></li>
             {% endif %}

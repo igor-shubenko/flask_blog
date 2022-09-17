@@ -9,6 +9,6 @@
             <p><b>{{ page_data.title }}</b></p>
             <br>
         {% endif %}
-        <p>{{ page_data.post_text }}</p>
+        <p>{{ page_data.post_text|safe }}</p>
     </div>
 {% endblock %}

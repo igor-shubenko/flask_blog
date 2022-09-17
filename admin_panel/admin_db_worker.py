@@ -92,3 +92,14 @@ class AdminDBWorker():
             print(e)
             return False
         return True
+
+    def get_all_feedbacks(self):
+        query = "SELECT * FROM feedbacks ORDER BY feed_date DESC"
+        try:
+            self.__cursor.execute(query)
+            result = self.__cursor.fetchall()    # result это список со словарями
+            if result:
+                return result
+        except sqlite3.Error as e:
+            print(e)
+        return []
