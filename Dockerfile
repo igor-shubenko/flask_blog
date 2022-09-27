@@ -16,5 +16,5 @@ COPY flask_blog_database.db flask_blog_database.db
 COPY forms.py forms.py
 COPY scripts_for_site.sql scripts_for_site.sql
 
-CMD gunicorn --bind 0.0.0.0:$PORT flask_blog:app
+CMD gunicorn --bind 0.0.0.0:4000 flask_blog:app # $PORT
 

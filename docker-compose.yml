@@ -4,4 +4,16 @@ services:
   flasksite:
     build: .
     ports:
-      - "5000:5000"
+      - "5000:4000"
+    environment:
+      MYSQL_HOST: database
+      MYSQL_USER: root
+      MYSQL_PASSWORD: secret
+      MYSQL_DB: flask_blog_db
+
+  database:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: flask_blog_db
+
